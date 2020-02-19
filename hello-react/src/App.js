@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Header from './components/Header';
 import Home from './components/Home';
 import Temp from './components/Temp';
+import ContextFather from './components/ContextFather';
 class App extends Component {
 constructor(props) {
   super(props);
@@ -17,6 +19,10 @@ constructor(props) {
     this.setState({
       title: value
     });
+  }
+
+  getChildContext() {
+    return { color : 'red'};
   }
   render() {
     const user = {
@@ -34,6 +40,7 @@ constructor(props) {
           <div className="col-xs-1 col-xs-offset-11">
             <h1>Hello World</h1>
             <Temp val={this.state.title}/>
+            <ContextFather/>
           </div>
         </div>
         <div className="row">
@@ -49,4 +56,7 @@ constructor(props) {
   }
 }
 
+App.childContextTypes = {
+  color: PropTypes.string
+}
 export default App;
