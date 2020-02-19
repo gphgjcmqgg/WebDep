@@ -40,6 +40,31 @@ class Records extends Component {
       ]
     })
   }
+
+  handDataDelete(record) {
+    const newData = this.state.records.filter(item => item.id !== record.id);
+    this.setState({
+      records: newData
+    });
+  }
+
+  handDataUpdate(record) {
+    const newData = this.state.records.map(item => {
+      if(item.id !== record.id) {
+        return item;
+      }
+      return {
+        ...item,
+        ...record
+      }
+    });
+    
+    this.setState({
+      records: newData
+    });
+  }
+
+
   render() {
     const { error, isLoaded, records } = this.state;
     let recordsComponent = '';
@@ -57,10 +82,18 @@ class Records extends Component {
                 <th>Date</th>
                 <th>Title</th>
                 <th>Amount</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {records.map((record) => <Record key={record.id} {...record} />)}
+              {records.map((record) => 
+                (
+                  <Record key={record.id} 
+                    record={record}  
+                    deleteData={this.handDataDelete.bind(this)}
+                    updateData={this.handDataUpdate.bind(this)}/>
+                )
+              )}
             </tbody>
           </table>
         </div>
