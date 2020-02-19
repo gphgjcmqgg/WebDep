@@ -21,7 +21,7 @@ const Header = (props) => {
         <div className="container">
             <div className="row"></div>
             <div className="col-xs-1 col-xs-offset-11">
-                <div>HelloWorld</div>
+                <div>{props.title}</div>
             </div>
         </div>
     );

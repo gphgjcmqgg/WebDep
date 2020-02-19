@@ -5,7 +5,7 @@ export default class Home extends Component {
         super(props);
         this.state = {
             age: props.age,
-            state: 0
+            state: 0,
         }
         setInterval(()=> {
             this.setState({
@@ -20,8 +20,14 @@ export default class Home extends Component {
         });
     }
 
+    onParentGetAge() {
+        this.props.greeting(this.state.age);
+    }
+
+    onModifyTitle(event) {
+        this.props.changeTitle(event.target.value);
+    }
     render() {
-        console.log(this.props.children);
         return (
             <div className="container">
                 <div className="row"></div>
@@ -38,6 +44,10 @@ export default class Home extends Component {
                         </h4>
                         {this.props.children}
                     </div>
+                    <input type="text" defaultValue={this.props.title} onChange={(e)=> {this.onModifyTitle(e)}}></input>
+                    <br />
+                    <button onClick={() => { this.onParentGetAge(); }} className="btn btn-primary">Parent Get Age</button>
+                    
                 </div>
             </div>
         );
