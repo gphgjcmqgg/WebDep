@@ -1,4 +1,4 @@
-import { Alert, Checkbox, Icon } from 'antd';
+import { Alert } from 'antd';
 import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
 import React, { Component } from 'react';
 
@@ -13,7 +13,7 @@ import styles from './style.less';
 import { LoginParamsType } from '@/services/login';
 import { ConnectState } from '@/models/connect';
 
-const { Tab, UserName, Password, Mobile, Captcha, Submit } = LoginComponents;
+const { Tab, UserName, Password, Captcha, Submit } = LoginComponents;
 
 interface LoginProps {
   dispatch: Dispatch<AnyAction>;
@@ -91,7 +91,7 @@ class Login extends Component<LoginProps, LoginState> {
   render() {
     const { userLogin = {}, submitting } = this.props;
     const { status, type: loginType } = userLogin;
-    const { type, autoLogin } = this.state;
+    const { type } = this.state;
     return (
       <div className={styles.main}>
         <LoginComponents
@@ -111,7 +111,7 @@ class Login extends Component<LoginProps, LoginState> {
               )}
             <UserName
               name="userName"
-              placeholder={`${formatMessage({ id: 'user-login.login.userName' })}: admin or user`}
+              placeholder={`请输入${formatMessage({ id: 'user-login.login.userName' })}或手机号`}
               rules={[
                 {
                   required: true,
@@ -121,7 +121,7 @@ class Login extends Component<LoginProps, LoginState> {
             />
             <Password
               name="password"
-              placeholder={`${formatMessage({ id: 'user-login.login.password' })}: ant.design`}
+              placeholder={`请输入${formatMessage({ id: 'user-login.login.password' })}`}
               rules={[
                 {
                   required: true,
@@ -134,28 +134,6 @@ class Login extends Component<LoginProps, LoginState> {
                   this.loginForm.validateFields(this.handleSubmit);
                 }
               }}
-            />
-          </Tab>
-          <Tab key="mobile" tab={formatMessage({ id: 'user-login.login.tab-login-mobile' })}>
-            {status === 'error' &&
-              loginType === 'mobile' &&
-              !submitting &&
-              this.renderMessage(
-                formatMessage({ id: 'user-login.login.message-invalid-verification-code' }),
-              )}
-            <Mobile
-              name="mobile"
-              placeholder={formatMessage({ id: 'user-login.phone-number.placeholder' })}
-              rules={[
-                {
-                  required: true,
-                  message: formatMessage({ id: 'user-login.phone-number.required' }),
-                },
-                {
-                  pattern: /^1\d{10}$/,
-                  message: formatMessage({ id: 'user-login.phone-number.wrong-format' }),
-                },
-              ]}
             />
             <Captcha
               name="captcha"
@@ -172,22 +150,13 @@ class Login extends Component<LoginProps, LoginState> {
               ]}
             />
           </Tab>
-          <div>
-            <Checkbox checked={autoLogin} onChange={this.changeAutoLogin}>
-              <FormattedMessage id="user-login.login.remember-me" />
-            </Checkbox>
-            <a style={{ float: 'right' }} href="">
-              <FormattedMessage id="user-login.login.forgot-password" />
-            </a>
-          </div>
           <Submit loading={submitting}>
             <FormattedMessage id="user-login.login.login" />
           </Submit>
           <div className={styles.other}>
-            <FormattedMessage id="user-login.login.sign-in-with" />
-            <Icon type="alipay-circle" className={styles.icon} theme="outlined" />
-            <Icon type="taobao-circle" className={styles.icon} theme="outlined" />
-            <Icon type="weibo-circle" className={styles.icon} theme="outlined" />
+            <a style={{ float: 'left' }} href="#">
+              <FormattedMessage id="user-login.login.forgot-password" />
+            </a>
             <Link className={styles.register} to="/user/register">
               <FormattedMessage id="user-login.login.signup" />
             </Link>

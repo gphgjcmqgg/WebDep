@@ -76,6 +76,11 @@ if (isAntDesignProPreview) {
 export default {
   plugins,
   hash: true,
+  block: {
+    // 国内用户可以使用码云
+    //defaultGitUrl: 'https://gitee.com/ant-design/pro-blocks',
+    defaultGitUrl: 'https://github.com/ant-design/pro-blocks',
+  },
   treeShaking: true,
   targets: {
     ie: 11,
