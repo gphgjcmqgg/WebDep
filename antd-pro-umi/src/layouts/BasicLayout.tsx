@@ -22,9 +22,7 @@ import RightContent from '@/components/GlobalHeader/RightContent';
 import { ConnectState } from '@/models/connect';
 import { isAntDesignPro, getAuthorityFromRouter } from '@/utils/utils';
 import logo from '../assets/logo.svg';     // 网站图标
-import ABSLink from '../components/ABSLink';
 import ABSFooter from '../components/ABSFooter';
-import './BasicLayout.less';
 
 const noMatch = (
   <Result
@@ -93,20 +91,9 @@ const defaultFooterDom = (
   />
 );
 
-const linkGov = () => {
-  return <ABSLink to="http://www.beian.miit.gov.cn">沪ICP备15008941号</ABSLink>;
-}
 const footerRender: BasicLayoutProps['footerRender'] = () => {
   if (!isAntDesignPro()) {
     // return defaultFooterDom;
-    // return (
-    //   <div style={{
-    //     padding: '0px 24px 12px',
-    //     textAlign: 'center',
-    //   }}>
-    //     © 2014 - 2020 上海和逸信息科技服务有限公司版权所有 {linkGov()} 版本号：1.0
-    //   </div>
-    // )
     return <ABSFooter></ABSFooter>
   }
   return (
@@ -162,6 +149,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
   return (
     <ProLayout
       logo={logo}
+      
       menuHeaderRender={(logoDom, titleDom) => (
         <Link to="/">
           {logoDom}
@@ -199,6 +187,7 @@ const BasicLayout: React.FC<BasicLayoutProps> = props => {
       rightContentRender={() => <RightContent />}
       {...props}
       {...settings}
+      // layout="topmenu"
     >
       <Authorized authority={authorized!.authority} noMatch={noMatch}>
         {children}

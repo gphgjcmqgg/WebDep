@@ -76,8 +76,13 @@ if (isAntDesignProPreview) {
 export default {
   plugins,
   hash: true,
+  treeShaking: true,
   targets: {
     ie: 11,
+  },
+  uglifyJSOptions: {
+    parallel: true,
+    cache: true,
   },
   // umi routes: https://umijs.org/zh/guide/router.html
   routes: pageRoutes,
