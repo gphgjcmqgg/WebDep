@@ -21,7 +21,7 @@ import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { ConnectState } from '@/models/connect';
 import { isAntDesignPro, getAuthorityFromRouter } from '@/utils/utils';
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo.svg';     // 网站图标
 
 const noMatch = (
   <Result
@@ -106,7 +106,7 @@ const footerRender: BasicLayoutProps['footerRender'] = () => {
         <a href="https://www.netlify.com" target="_blank" rel="noopener noreferrer">
           <img
             src="https://www.netlify.com/img/global/badges/netlify-color-bg.svg"
-            width="82px"
+            width="50px"
             alt="netlify logo"
           />
         </a>

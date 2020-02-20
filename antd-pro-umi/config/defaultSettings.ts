@@ -55,7 +55,7 @@ export default {
   menu: {
     locale: true,
   },
-  title: 'Ant Design Pro',
+  title: '中诚信债务通',
   pwa: false,
   iconfontUrl: '',
 } as DefaultSettings;
