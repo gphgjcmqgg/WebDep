@@ -2,10 +2,10 @@ import { Reducer } from 'redux';
 import { Effect } from 'dva';
 import { stringify } from 'querystring';
 import { router } from 'umi';
-
-import { fakeAccountLogin, getFakeCaptcha } from '@/services/login';
 import { setAuthority } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
+import { GlobalApi, AccountApi } from '@/config/api';
+import Request from '@/utils/http/request/index';
 
 export interface StateType {
   status?: 'ok' | 'error';
@@ -34,37 +34,12 @@ const Model: LoginModelType = {
   },
 
   effects: {
-    *login({ payload }, { call, put }) {
-      const response = yield call(fakeAccountLogin, payload);
-      yield put({
-        type: 'changeLoginStatus',
-        payload: response,
-      });
-      // Login successfully
-      if (response.status === 'ok') {
-        const urlParams = new URL(window.location.href);
-        const params = getPageQuery();
-        let { redirect } = params as { redirect: string };
-        if (redirect) {
-          const redirectUrlParams = new URL(redirect);
-          if (redirectUrlParams.origin === urlParams.origin) {
-            redirect = redirect.substr(urlParams.origin.length);
-            if (redirect.match(/^\/.*#/)) {
-              redirect = redirect.substr(redirect.indexOf('#') + 1);
-            }
-          } else {
-            window.location.href = '/';
-            return;
-          }
-        }
-        router.replace(redirect || '/');
-      }
+    *login({ payload }: any, { call, put }: any) {
+      return yield call(Request.post, AccountApi.login, null, payload);
     },
-
-    *getCaptcha({ payload }, { call }) {
-      yield call(getFakeCaptcha, payload);
+    *getCaptcha(_: any, { call, put }: any) {
+      return yield call(Request.post, GlobalApi.captcha);
     },
-
     logout() {
       const { redirect } = getPageQuery();
       // Note: There may be security issues, please note

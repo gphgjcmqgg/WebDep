@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { getRandomArray, getRandomNumber } from './util';
 // import { string } from 'prop-types';
 import { connect } from 'dva';
-import { GlobalApi } from '../../abs/config/api';
+import { GlobalApi } from '@/config/api';
 
 export interface IABSCaptchaProps {
   className?: string;
@@ -41,9 +41,11 @@ class ABSCaptcha extends React.PureComponent<IABSCaptchaProps, IABSCaptchaState>
   }
 
   getCaptcha = () => {
+    
     this.props.dispatch({
-      type: 'account/getCaptcha',
-    }).then((response) => {
+      type: 'login/getCaptcha',
+    }).then((response: any) => {
+      console.log(response);
       this.setState({ captcha: response });
     });
   }

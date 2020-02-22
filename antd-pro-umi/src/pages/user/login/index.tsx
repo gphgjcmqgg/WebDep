@@ -1,8 +1,6 @@
 import { Alert } from 'antd';
 import { FormattedMessage, formatMessage } from 'umi-plugin-react/locale';
 import React, { Component } from 'react';
-
-import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { Dispatch, AnyAction } from 'redux';
 import { FormComponentProps } from 'antd/es/form';
 import { Link } from 'umi';
@@ -13,7 +11,7 @@ import styles from './style.less';
 import { LoginParamsType } from '@/services/login';
 import { ConnectState } from '@/models/connect';
 
-const { Tab, UserName, Password, Captcha, Submit } = LoginComponents;
+const { Tab, UserName, Password, Submit } = LoginComponents;
 
 interface LoginProps {
   dispatch: Dispatch<AnyAction>;
@@ -33,16 +31,11 @@ class Login extends Component<LoginProps, LoginState> {
     autoLogin: true,
   };
 
-  changeAutoLogin = (e: CheckboxChangeEvent) => {
-    this.setState({
-      autoLogin: e.target.checked,
-    });
-  };
-
   handleSubmit = (err: unknown, values: LoginParamsType) => {
     const { type } = this.state;
     if (!err) {
       const { dispatch } = this.props;
+      console.log(values);
       dispatch({
         type: 'login/login',
         payload: {
@@ -52,37 +45,6 @@ class Login extends Component<LoginProps, LoginState> {
       });
     }
   };
-
-  onTabChange = (type: string) => {
-    this.setState({ type });
-  };
-
-  onGetCaptcha = () =>
-    new Promise<boolean>((resolve, reject) => {
-      if (!this.loginForm) {
-        return;
-      }
-      this.loginForm.validateFields(
-        ['mobile'],
-        {},
-        async (err: unknown, values: LoginParamsType) => {
-          if (err) {
-            reject(err);
-          } else {
-            const { dispatch } = this.props;
-            try {
-              const success = await ((dispatch({
-                type: 'login/getCaptcha',
-                payload: values.mobile,
-              }) as unknown) as Promise<unknown>);
-              resolve(!!success);
-            } catch (error) {
-              reject(error);
-            }
-          }
-        },
-      );
-    });
 
   renderMessage = (content: string) => (
     <Alert style={{ marginBottom: 24 }} message={content} type="error" showIcon />
@@ -96,7 +58,6 @@ class Login extends Component<LoginProps, LoginState> {
       <div className={styles.main}>
         <LoginComponents
           defaultActiveKey={type}
-          onTabChange={this.onTabChange}
           onSubmit={this.handleSubmit}
           onCreate={(form?: FormComponentProps['form']) => {
             this.loginForm = form;
@@ -134,20 +95,6 @@ class Login extends Component<LoginProps, LoginState> {
                   this.loginForm.validateFields(this.handleSubmit);
                 }
               }}
-            />
-            <Captcha
-              name="captcha"
-              placeholder={formatMessage({ id: 'user-login.verification-code.placeholder' })}
-              countDown={120}
-              onGetCaptcha={this.onGetCaptcha}
-              getCaptchaButtonText={formatMessage({ id: 'user-login.form.get-captcha' })}
-              getCaptchaSecondText={formatMessage({ id: 'user-login.captcha.second' })}
-              rules={[
-                {
-                  required: true,
-                  message: formatMessage({ id: 'user-login.verification-code.required' }),
-                },
-              ]}
             />
           </Tab>
           <Submit loading={submitting}>
